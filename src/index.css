@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --color-brand-red: #E30620;
+  --color-brand-red-hover: #C5041A;
+  --color-brand-black: #080808;
+  --color-brand-graphite: #151515;
+  --color-brand-dark: #242424;
+  --color-brand-border: #2D2D2D;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #080808;
+  color: #FFFFFF;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6, .font-display {
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Custom modern scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #080808;
+}
+::-webkit-scrollbar-thumb {
+  background: #242424;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #E30620;
+}
+
+/* Glassmorphism utility */
+.glass-panel {
+  background: rgba(21, 21, 21, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-nav {
+  background: rgba(8, 8, 8, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Subtle glow */
+.red-glow {
+  box-shadow: 0 0 35px -5px rgba(227, 6, 32, 0.3);
+}
+
+.red-glow-sm {
+  box-shadow: 0 0 15px -3px rgba(227, 6, 32, 0.4);
+}
+
