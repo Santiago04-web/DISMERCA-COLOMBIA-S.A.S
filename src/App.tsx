@@ -1,12 +1,14 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
-import { BrandBar } from './components/BrandBar';
+import { QuickFinder } from './components/QuickFinder';
 import { Catalog } from './components/Catalog';
-import { Financing } from './components/Financing';
-import { ServiceWorkshop } from './components/ServiceWorkshop';
+import { BrandBar } from './components/BrandBar';
+import { ElectricMobility } from './components/ElectricMobility';
 import { SpareParts } from './components/SpareParts';
-import { AboutUs } from './components/AboutUs';
+import { ServiceWorkshop } from './components/ServiceWorkshop';
+import { Financing } from './components/Financing';
+import { TrustSection } from './components/TrustSection';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
@@ -62,28 +64,49 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#080808] text-white flex flex-col selection:bg-[#E30620] selection:text-white">
-      {/* Sticky & Glass Navbar */}
+    <div className="min-h-screen bg-[#080808] text-white flex flex-col selection:bg-[#E30620] selection:text-white antialiased">
+      {/* Sticky & Glass Navbar with active section indicator */}
       <Navbar
         currentView={currentView}
         onNavigateHome={() => navigateTo('home')}
         onNavigateLegal={(view) => navigateTo(view)}
       />
 
-      {/* Main View Display */}
+      {/* Main Content following exact requested automotive narrative */}
       <main className="flex-grow">
         {currentView === 'home' && (
           <>
+            {/* 1. HERO */}
             <Hero />
-            <BrandBar onSelectBrand={handleBrandSelect} />
+
+            {/* 2. ¿QUÉ ESTÁS BUSCANDO? */}
+            <QuickFinder />
+
+            {/* 3. MOTOCICLETAS */}
             <Catalog
               selectedBrandFilter={selectedBrandFilter}
               onBrandFilterChange={setSelectedBrandFilter}
             />
-            <Financing />
-            <ServiceWorkshop />
+
+            {/* 4. MARCAS */}
+            <BrandBar onSelectBrand={handleBrandSelect} />
+
+            {/* 5. MOVILIDAD ELÉCTRICA */}
+            <ElectricMobility />
+
+            {/* 6. REPUESTOS */}
             <SpareParts />
-            <AboutUs />
+
+            {/* 7. TALLER Y SERVICIO */}
+            <ServiceWorkshop />
+
+            {/* 8. FINANCIACIÓN */}
+            <Financing />
+
+            {/* 9. CONFIANZA */}
+            <TrustSection />
+
+            {/* 10. CONTACTO */}
             <Contact />
           </>
         )}
@@ -97,13 +120,13 @@ export function App() {
         )}
       </main>
 
-      {/* Footer */}
+      {/* FOOTER */}
       <Footer
         onNavigateHome={() => navigateTo('home')}
         onNavigateLegal={(view) => navigateTo(view)}
       />
 
-      {/* Floating WhatsApp CTA */}
+      {/* Refined Floating WhatsApp CTA */}
       <FloatingWhatsApp />
     </div>
   );

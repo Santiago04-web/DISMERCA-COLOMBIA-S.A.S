@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { COMPANY_INFO } from '../data/company';
 import { MapPin, Phone, Mail } from 'lucide-react';
 
@@ -32,7 +32,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateHome, onNavigateLegal 
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div>
+              <div className="text-left">
                 <span className="text-xl font-black tracking-wider text-white font-display">
                   DISMERCA<span className="text-[#E30620]">.</span>
                 </span>
@@ -43,7 +43,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateHome, onNavigateLegal 
             </div>
 
             <p className="text-xs text-neutral-400 leading-relaxed max-w-sm mb-4">
-              Comercialización de motocicletas multimarca, bicicletas eléctricas, repuestos y servicio técnico en Medellín.
+              Comercialización formal de motocicletas, bicicletas eléctricas, repuestos y servicio de taller técnico en Medellín, Antioquia.
             </p>
 
             <div className="space-y-1 text-xs text-neutral-400">
@@ -54,7 +54,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateHome, onNavigateLegal 
 
           {/* Quick Links */}
           <div className="lg:col-span-2">
-            <h4 className="text-xs uppercase font-extrabold tracking-widest text-white font-display mb-4">
+            <h4 className="text-xs uppercase font-black tracking-widest text-white font-display mb-4">
               Navegación
             </h4>
             <ul className="space-y-2.5 text-xs">
@@ -69,18 +69,28 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateHome, onNavigateLegal 
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollTo('repuestos')} className="hover:text-white transition-colors cursor-pointer">
-                  Repuestos
+                <button onClick={() => scrollTo('marcas')} className="hover:text-white transition-colors cursor-pointer">
+                  Marcas
+                </button>
+              </li>
+              <li>
+                <button onClick={() => scrollTo('electrica')} className="hover:text-white transition-colors cursor-pointer">
+                  Movilidad Eléctrica
+                </button>
+              </li>
+              <li>
+                <button onClick={() => scrollTo('financiacion')} className="hover:text-white transition-colors cursor-pointer">
+                  Financiación
                 </button>
               </li>
               <li>
                 <button onClick={() => scrollTo('taller')} className="hover:text-white transition-colors cursor-pointer">
-                  Taller
+                  Taller y Servicio
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollTo('nosotros')} className="hover:text-white transition-colors cursor-pointer">
-                  Nosotros
+                <button onClick={() => scrollTo('repuestos')} className="hover:text-white transition-colors cursor-pointer">
+                  Repuestos
                 </button>
               </li>
               <li>
@@ -93,8 +103,8 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateHome, onNavigateLegal 
 
           {/* Legal Links */}
           <div className="lg:col-span-3">
-            <h4 className="text-xs uppercase font-extrabold tracking-widest text-white font-display mb-4">
-              Legal & Políticas
+            <h4 className="text-xs uppercase font-black tracking-widest text-white font-display mb-4">
+              Políticas y Marco Legal
             </h4>
             <ul className="space-y-2.5 text-xs">
               <li>
@@ -114,31 +124,31 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateHome, onNavigateLegal 
                 </button>
               </li>
               <li>
-                <span className="text-neutral-400 block pt-1">
-                  Protección de Datos Personales (Ley 1581 de 2012 de Colombia)
+                <span className="text-neutral-500 block pt-1 leading-relaxed">
+                  Protección de Datos Personales (Habeas Data Ley 1581 de 2012)
                 </span>
               </li>
             </ul>
           </div>
 
-          {/* Contact Details in Footer */}
+          {/* Sede Medellín */}
           <div className="lg:col-span-3">
-            <h4 className="text-xs uppercase font-extrabold tracking-widest text-white font-display mb-4">
+            <h4 className="text-xs uppercase font-black tracking-widest text-white font-display mb-4">
               Sede Medellín
             </h4>
             <div className="space-y-2.5 text-xs text-neutral-400">
               <p className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-[#E30620] flex-shrink-0 mt-0.5" />
-                <span>{COMPANY_INFO.address}, {COMPANY_INFO.city}</span>
+                <span>{COMPANY_INFO.address}, Medellín, Antioquia</span>
               </p>
               <p className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-[#E30620] flex-shrink-0" />
-                <span>{COMPANY_INFO.phoneDisplay}</span>
+                <span>+57 310 446 7970</span>
               </p>
               <p className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-[#E30620] flex-shrink-0" />
                 <a href={`mailto:${COMPANY_INFO.email}`} className="hover:text-white transition-colors truncate">
-                  {COMPANY_INFO.email}
+                  soporte@dismercacolombia.online
                 </a>
               </p>
             </div>

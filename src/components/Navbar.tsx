@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Menu, X, MessageCircle, Phone, MapPin } from 'lucide-react';
 import { getWhatsAppUrlWithMsg } from '../data/company';
 
@@ -11,16 +11,30 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateLegal, currentView = 'home' }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('inicio');
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 30) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
+      setIsScrolled(window.scrollY > 30);
+
+      // Detect active section on scroll
+      const sections = ['inicio', 'motocicletas', 'marcas', 'electrica', 'repuestos', 'taller', 'financiacion', 'contacto'];
+      const scrollPosition = window.scrollY + 200;
+
+      for (const sectionId of sections) {
+        const el = document.getElementById(sectionId);
+        if (el) {
+          const top = el.offsetTop;
+          const height = el.offsetHeight;
+          if (scrollPosition >= top && scrollPosition < top + height) {
+            setActiveSection(sectionId);
+            break;
+          }
+        }
       }
     };
-    window.addEventListener('scroll', handleScroll);
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -40,12 +54,23 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateLegal,
     }
   };
 
+  const navLinks = [
+    { id: 'inicio', label: 'Inicio' },
+    { id: 'motocicletas', label: 'Motocicletas' },
+    { id: 'marcas', label: 'Marcas' },
+    { id: 'electrica', label: 'Movilidad Eléctrica' },
+    { id: 'repuestos', label: 'Repuestos' },
+    { id: 'taller', label: 'Taller' },
+    { id: 'financiacion', label: 'Financiación' },
+    { id: 'contacto', label: 'Contacto' },
+  ];
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
           ? 'glass-nav shadow-2xl shadow-black/80 py-3'
-          : 'bg-gradient-to-b from-black/90 via-black/50 to-transparent py-4'
+          : 'bg-gradient-to-b from-black/90 via-black/60 to-transparent py-4'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -68,7 +93,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateLegal,
                 className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
               />
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col text-left">
               <span className="text-xl sm:text-2xl font-black tracking-wider text-white flex items-center font-display">
                 DISMERCA<span className="text-[#E30620] ml-0.5">.</span>
               </span>
@@ -78,65 +103,36 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateLegal,
             </div>
           </a>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-7">
-            <button
-              onClick={() => handleNavClick('inicio')}
-              className="text-sm font-medium text-neutral-300 hover:text-white transition-colors cursor-pointer"
-            >
-              Inicio
-            </button>
-            <button
-              onClick={() => handleNavClick('motocicletas')}
-              className="text-sm font-medium text-neutral-300 hover:text-white transition-colors cursor-pointer"
-            >
-              Motocicletas
-            </button>
-            <button
-              onClick={() => handleNavClick('marcas')}
-              className="text-sm font-medium text-neutral-300 hover:text-white transition-colors cursor-pointer"
-            >
-              Marcas
-            </button>
-            <button
-              onClick={() => handleNavClick('financiacion')}
-              className="text-sm font-medium text-neutral-300 hover:text-white transition-colors cursor-pointer"
-            >
-              Financiación
-            </button>
-            <button
-              onClick={() => handleNavClick('taller')}
-              className="text-sm font-medium text-neutral-300 hover:text-white transition-colors cursor-pointer"
-            >
-              Taller y Servicio
-            </button>
-            <button
-              onClick={() => handleNavClick('repuestos')}
-              className="text-sm font-medium text-neutral-300 hover:text-white transition-colors cursor-pointer"
-            >
-              Repuestos
-            </button>
-            <button
-              onClick={() => handleNavClick('nosotros')}
-              className="text-sm font-medium text-neutral-300 hover:text-white transition-colors cursor-pointer"
-            >
-              Nosotros
-            </button>
-            <button
-              onClick={() => handleNavClick('contacto')}
-              className="text-sm font-medium text-neutral-300 hover:text-white transition-colors cursor-pointer"
-            >
-              Contacto
-            </button>
+          {/* Desktop Navigation with Active Section Glow */}
+          <nav className="hidden xl:flex items-center gap-6">
+            {navLinks.map((link) => {
+              const isActive = currentView === 'home' && activeSection === link.id;
+              return (
+                <button
+                  key={link.id}
+                  onClick={() => handleNavClick(link.id)}
+                  className={`text-xs font-bold tracking-wide transition-all duration-200 cursor-pointer relative py-1 ${
+                    isActive
+                      ? 'text-white font-extrabold'
+                      : 'text-neutral-400 hover:text-neutral-200'
+                  }`}
+                >
+                  <span>{link.label}</span>
+                  {isActive && (
+                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-[#E30620] rounded-full" />
+                  )}
+                </button>
+              );
+            })}
           </nav>
 
-          {/* Right Action: WhatsApp CTA */}
+          {/* WhatsApp CTA */}
           <div className="hidden sm:flex items-center gap-4">
             <a
-              href={getWhatsAppUrlWithMsg('Hola Dismerca Colombia, deseo solicitar asesoría sobre motocicletas y servicios.')}
+              href={getWhatsAppUrlWithMsg('Hola Dismerca Colombia, deseo solicitar información.')}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#E30620] hover:bg-[#C5041A] text-white font-semibold text-sm tracking-wide shadow-lg shadow-[#E30620]/25 hover:shadow-[#E30620]/40 transform hover:-translate-y-0.5 transition-all duration-200 group"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#E30620] hover:bg-[#C5041A] text-white font-bold text-xs tracking-wider uppercase shadow-lg shadow-[#E30620]/30 hover:shadow-[#E30620]/50 transition-all duration-200 group"
             >
               <MessageCircle className="w-4 h-4 transition-transform group-hover:scale-110" />
               <span>WhatsApp</span>
@@ -144,7 +140,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateLegal,
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="flex items-center gap-2 lg:hidden">
+          <div className="flex items-center gap-2 xl:hidden">
             <a
               href={getWhatsAppUrlWithMsg('Hola Dismerca Colombia, deseo información.')}
               target="_blank"
@@ -169,59 +165,23 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateLegal,
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-x-0 top-[60px] bg-[#0C0C0C]/95 backdrop-blur-2xl border-b border-white/10 px-6 py-8 shadow-2xl transition-all">
-          <div className="flex flex-col gap-4 text-left">
-            <button
-              onClick={() => handleNavClick('inicio')}
-              className="text-lg font-semibold text-neutral-200 hover:text-[#E30620] py-2 border-b border-white/5 text-left"
-            >
-              Inicio
-            </button>
-            <button
-              onClick={() => handleNavClick('motocicletas')}
-              className="text-lg font-semibold text-neutral-200 hover:text-[#E30620] py-2 border-b border-white/5 text-left"
-            >
-              Motocicletas
-            </button>
-            <button
-              onClick={() => handleNavClick('marcas')}
-              className="text-lg font-semibold text-neutral-200 hover:text-[#E30620] py-2 border-b border-white/5 text-left"
-            >
-              Marcas
-            </button>
-            <button
-              onClick={() => handleNavClick('financiacion')}
-              className="text-lg font-semibold text-neutral-200 hover:text-[#E30620] py-2 border-b border-white/5 text-left"
-            >
-              Financiación
-            </button>
-            <button
-              onClick={() => handleNavClick('taller')}
-              className="text-lg font-semibold text-neutral-200 hover:text-[#E30620] py-2 border-b border-white/5 text-left"
-            >
-              Taller y Servicio
-            </button>
-            <button
-              onClick={() => handleNavClick('repuestos')}
-              className="text-lg font-semibold text-neutral-200 hover:text-[#E30620] py-2 border-b border-white/5 text-left"
-            >
-              Repuestos
-            </button>
-            <button
-              onClick={() => handleNavClick('nosotros')}
-              className="text-lg font-semibold text-neutral-200 hover:text-[#E30620] py-2 border-b border-white/5 text-left"
-            >
-              Nosotros
-            </button>
-            <button
-              onClick={() => handleNavClick('contacto')}
-              className="text-lg font-semibold text-neutral-200 hover:text-[#E30620] py-2 border-b border-white/5 text-left"
-            >
-              Contacto
-            </button>
+        <div className="xl:hidden fixed inset-x-0 top-[60px] bg-[#0c0c0c]/98 backdrop-blur-2xl border-b border-white/10 px-6 py-8 shadow-2xl transition-all max-h-[85vh] overflow-y-auto">
+          <div className="flex flex-col gap-3 text-left">
+            {navLinks.map((link) => (
+              <button
+                key={link.id}
+                onClick={() => handleNavClick(link.id)}
+                className={`text-base font-bold py-2 border-b border-white/5 text-left flex items-center justify-between ${
+                  activeSection === link.id ? 'text-[#E30620]' : 'text-neutral-200 hover:text-white'
+                }`}
+              >
+                <span>{link.label}</span>
+                {activeSection === link.id && <span className="w-1.5 h-1.5 rounded-full bg-[#E30620]" />}
+              </button>
+            ))}
 
             {onNavigateLegal && (
-              <div className="flex gap-4 pt-2 text-xs text-neutral-400">
+              <div className="flex gap-4 pt-3 text-xs text-neutral-400">
                 <button
                   onClick={() => {
                     setMobileMenuOpen(false);
